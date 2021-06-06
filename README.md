@@ -37,13 +37,13 @@ vmstat was run with an argument of 1, to print one second summaries. The first l
 
 Columns to check:
 
-    r: Number of processes running on CPU and waiting for a turn. This provides a better signal than load averages for determining CPU saturation, as it does not include I/O. To interpret: an “r” value greater than the CPU count is saturation.
+    `r:` Number of processes running on CPU and waiting for a turn. This provides a better signal than load averages for determining CPU saturation, as it does not include I/O. To interpret: an “r” value greater than the CPU count is saturation.
 
-   free: Free memory in kilobytes. If there are too many digits to count, you have enough free memory. The “free -m” command, included as command 7, better explains the state of free memory.
+   `free:` Free memory in kilobytes. If there are too many digits to count, you have enough free memory. The “free -m” command, included as command 7, better explains the state of free memory.
 
-   si, so: Swap-ins and swap-outs. If these are non-zero, you’re out of memory.
+   `si, so:` Swap-ins and swap-outs. If these are non-zero, you’re out of memory.
 
-   us, sy, id, wa, st: These are breakdowns of CPU time, on average across all CPUs. They are user time, system time (kernel), idle, wait I/O, and stolen time (by other guests, or with Xen, the guest’s own isolated driver domain).
+   `us, sy, id, wa, st:` These are breakdowns of CPU time, on average across all CPUs. They are user time, system time (kernel), idle, wait I/O, and stolen time (by other guests, or with Xen, the guest’s own isolated driver domain).
 
 The CPU time breakdowns will confirm if the CPUs are busy, by adding user + system time. A constant degree of wait I/O points to a disk bottleneck; this is where the CPUs are idle, because tasks are blocked waiting for pending disk I/O. You can treat wait I/O as another form of CPU idle, one that gives a clue as to why they are idle.
 
@@ -63,13 +63,13 @@ Pidstat is a little like top’s per-process summary, but prints a rolling summa
 
 This is a great tool for understanding block devices (disks), both the workload applied and the resulting performance. Look for:
 
-    r/s, w/s, rkB/s, wkB/s: These are the delivered reads, writes, read Kbytes, and write Kbytes per second to the device. Use these for workload characterization. A performance problem may simply be due to an excessive load applied.
+    `r/s, w/s, rkB/s, wkB/s:` These are the delivered reads, writes, read Kbytes, and write Kbytes per second to the device. Use these for workload characterization. A performance problem may simply be due to an excessive load applied.
 
-    await: The average time for the I/O in milliseconds. This is the time that the application suffers, as it includes both time queued and time being serviced. Larger than expected average times can be an indicator of device saturation, or device problems.
+    `await:` The average time for the I/O in milliseconds. This is the time that the application suffers, as it includes both time queued and time being serviced. Larger than expected average times can be an indicator of device saturation, or device problems.
 
-    avgqu-sz: The average number of requests issued to the device. Values greater than 1 can be evidence of saturation (although devices can typically operate on requests in parallel, especially virtual devices which front multiple back-end disks.)
+    `avgqu-sz:` The average number of requests issued to the device. Values greater than 1 can be evidence of saturation (although devices can typically operate on requests in parallel, especially virtual devices which front multiple back-end disks.)
 
-    %util: Device utilization. This is really a busy percent, showing the time each second that the device was doing work. Values greater than 60% typically lead to poor performance (which should be seen in await), although it depends on the device. Values close to 100% usually indicate saturation.
+    `%util:` Device utilization. This is really a busy percent, showing the time each second that the device was doing work. Values greater than 60% typically lead to poor performance (which should be seen in await), although it depends on the device. Values close to 100% usually indicate saturation.
 
 If the storage device is a logical disk device fronting many back-end disks, then 100% utilization may just mean that some I/O is being processed 100% of the time, however, the back-end disks may be far from saturated, and may be able to handle much more work.
 
@@ -77,9 +77,9 @@ Bear in mind that poor performing disk I/O isn’t necessarily an application is
 
 # free -m
 
-    buffers: For the buffer cache, used for block device I/O.
+    `buffers:` For the buffer cache, used for block device I/O.
 
-    cached: For the page cache, used by file systems.
+    `cached:` For the page cache, used by file systems.
 
 We just want to check that these aren’t near-zero in size, which can lead to higher disk I/O (confirm using iostat), and worse performance. The above example looks fine, with many Mbytes in each.
 
@@ -98,11 +98,11 @@ This version also has %ifutil for device utilization (max of both directions for
 
 This is a summarized view of some key TCP metrics. These include:
 
-    active/s: Number of locally-initiated TCP connections per second (e.g., via connect()).
+    `active/s:` Number of locally-initiated TCP connections per second (e.g., via connect()).
 
-    passive/s: Number of remotely-initiated TCP connections per second (e.g., via accept()).
+    `passive/s:` Number of remotely-initiated TCP connections per second (e.g., via accept()).
 
-    retrans/s: Number of TCP retransmits per second.
+    `retrans/s:` Number of TCP retransmits per second.
 
 The active and passive counts are often useful as a rough measure of server load: number of new accepted connections (passive), and number of downstream connections (active). It might help to think of active as outbound, and passive as inbound, but this isn’t strictly true (e.g., consider a localhost to localhost connection).
 
