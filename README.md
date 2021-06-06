@@ -1,5 +1,4 @@
 <p align="center">
-  <img href="http://www.brendangregg.com/Perf/linux_perf_tools_full.svg" src="./logo/log.svg" width="40%">
   <h1 align="center">
     IMPORTANT LINUX TROUBLESHOOTING COMMAND
   </h1>
